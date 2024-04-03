@@ -28,7 +28,7 @@ const DATA = [
 ];
 
 interface Memo {
-  id: number;
+  id: string;
   title: string;
   description: string;
 }
@@ -57,7 +57,7 @@ const MemoListScreen:React.FC<Props> = ({navigation}) => {
         <SearchBar />
       </View>
       <View style={styles.memoList}>
-        <MemoList data={DATA} />
+        <MemoList data={DATA}/>
       </View>
     </View>
   );

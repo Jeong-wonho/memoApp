@@ -7,33 +7,30 @@ import MemoList from "../components/MemoList";
 import MemoWrites from "../components/MemoWrites";
 
 interface Memo {
-    title:string;
-    description:string;
+  title: string;
+  description: string;
 }
 
 interface Props {
-    route: any;
+  route: any;
 }
 interface Props {
-    navigation: any;
+  navigation: any;
 }
 
-const MemoScreen:React.FC<Props> = ({navigation,route}) => {
+const MemoScreen: React.FC<Props> = ({ navigation, route }) => {
   const [writeStatus, setWriteStatus] = useState<boolean>(true);
   const [configStatus, setConfigStatus] = useState<boolean>(false);
   const { memo } = route.params;
 
   console.log(memo);
-    const backToHome = () => {
-        navigation.navigate('MemoListScreen');
-    }
+  const backToHome = () => {
+    navigation.navigate("MemoListScreen");
+  };
   return (
     <View style={styles.container}>
       <View style={{ backgroundColor: "#fff", flex: 0 }}>
-        <WriteMenus
-          handleWriteStatus={backToHome}
-          writeStatus={writeStatus}
-        />
+        <WriteMenus />
       </View>
       <View style={styles.memoList}>
         <MemoWrites />

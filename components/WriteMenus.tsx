@@ -6,16 +6,14 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function WriteMenus({
-  handleWriteStatus,
-  writeStatus,
 }: {
-  handleWriteStatus: any;
-  writeStatus: boolean;
 }) {
+    const navigation = useNavigation();
   const changeWriteStatus = () => {
-    handleWriteStatus();
+    navigation.goBack();
   };
   const deleteCard = () => {
     console.log("deleteCard");

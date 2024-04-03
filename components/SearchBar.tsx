@@ -26,7 +26,7 @@ export default function SearchBar() {
           style={styles.searchInput}
           onChangeText={onChangeText}
           value={text}
-          placeholder="tag 또는 검색어 입력"
+          placeholder="검색어 입력"
           placeholderTextColor="#424242"
         />
       </View>

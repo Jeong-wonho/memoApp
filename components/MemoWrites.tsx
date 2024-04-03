@@ -20,11 +20,12 @@ export default function MemoWrites() {
   const editor = useEditorBridge({
     autofocus: true,
     avoidIosKeyboard: true,
+    initialContent
   });
 
   return (
       <SafeAreaView style={exampleStyles.fullScreen}>
-        <RichText editor={editor} />
+        <RichText editor={editor}/>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={exampleStyles.keyboardAvoidingView}
@@ -39,6 +40,7 @@ export default function MemoWrites() {
 const exampleStyles = StyleSheet.create({
   fullScreen: {
     flex: 1,
+    marginHorizontal:5
   },
   keyboardAvoidingView: {
     position: "absolute",
@@ -46,3 +48,6 @@ const exampleStyles = StyleSheet.create({
     bottom: 10,
   },
 });
+
+const initialContent = `안녕하세요!`;
+

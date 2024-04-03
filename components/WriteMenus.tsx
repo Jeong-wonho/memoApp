@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import {
   Ionicons,
@@ -17,33 +17,43 @@ export default function WriteMenus({
   const changeWriteStatus = () => {
     handleWriteStatus();
   };
+  const deleteCard = () => {
+    console.log("deleteCard");
+  };
+  const InfoCard = () => {
+    console.log("infomation");
+  };
   return (
     <View style={styles.menuBar}>
-      <MaterialIcons
-        name="keyboard-arrow-left"
-        size={30}
-        color="black"
-        onPress={changeWriteStatus}
-      />
+      <TouchableOpacity onPress={changeWriteStatus}>
+        <MaterialIcons name="keyboard-arrow-left" size={30} color="black" />
+      </TouchableOpacity>
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "flex-end",
-          flex: 0.7,
+          justifyContent: "space-between",
+          flex: 0.4,
         }}
       >
-        <MaterialCommunityIcons
-          name="information-outline"
-          size={30}
-          color="black"
-          style={{paddingHorizontal:'5%'}}
-        />
-        <MaterialCommunityIcons
-          name="trash-can-outline"
-          size={30}
-          color="black"
-        />
-        {/* <MaterialIcons name="keyboard-hide" size={30} color="black" /> */}
+        <TouchableOpacity onPress={InfoCard}>
+          <MaterialCommunityIcons
+            name="information-outline"
+            size={30}
+            color="black"
+            // style={{ paddingHorizontal: "5%" }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={deleteCard}>
+          <MaterialCommunityIcons
+            name="trash-can-outline"
+            size={30}
+            color="black"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={deleteCard}>
+          <MaterialIcons name="keyboard-hide" size={30} color="black" />
+        </TouchableOpacity>
       </View>
     </View>
   );

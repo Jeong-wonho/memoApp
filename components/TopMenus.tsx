@@ -4,19 +4,16 @@ import { FontAwesome } from "@expo/vector-icons";
 
 export default function TopMenus({
   handleWriteStatus,
-  writeStatus,
 }: {
   handleWriteStatus: any;
-  writeStatus: boolean;
 }) {
   const changeWriteStatus = () => {
-    handleWriteStatus();
+        handleWriteStatus();
   };
 
   const changeConfigStatus = () => {
-    // handleConfigStatus();
+    console.log('list');
   };
-//   console.log(writeStatus, configStatus);
   return (
     //새로운 메뉴 바가 필요해!
     <View style={styles.menuBar}>
@@ -26,7 +23,6 @@ export default function TopMenus({
           name="list-ul"
           size={30}
           color="black"
-          //   onPress={changeConfigStatus}
         />
       </TouchableOpacity>
       <Text style={styles.workState}>모든 메모</Text>
@@ -36,7 +32,6 @@ export default function TopMenus({
           name="pencil-square-o"
           size={30}
           color="black"
-          // onPress={changeWriteStatus}
         />
       </TouchableOpacity>
     </View>

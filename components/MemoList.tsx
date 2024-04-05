@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import MemoScreen from "../screen/MemoScreen";
+
 type Memo = {
   id: string;
   title: string;
@@ -15,7 +15,7 @@ type Memo = {
 
 type ItemProps = { item: Memo; onPress(): void };
 
-const Item = ({ item,onPress }: ItemProps) => (
+const Item = ({ item, onPress }: ItemProps) => (
   <TouchableOpacity style={styles.itemComp} onPress={onPress}>
     <Text style={styles.itemTitle}>{item.title}</Text>
     <Text>{item.description.substring(0, 40)}</Text>
@@ -23,16 +23,16 @@ const Item = ({ item,onPress }: ItemProps) => (
 );
 export default function MemoList({ data }: { data: Memo[] }) {
   const navigation = useNavigation();
-  
+
   const renderItem = ({ item }: { item: Memo }) => {
     const memo = item;
     return (
-      <Item item={item} onPress={() => navigation.navigate('MemoScreen', {memo})} />
+      <Item
+        item={item}
+        onPress={() => navigation.navigate("MemoScreen", { memo })}
+      />
     );
   };
-//   itemId: item.id,
-//   itemTitle: item.title,
-//   itemDescription: item.description,
   return (
     <>
       <View style={styles.itemList}>

@@ -1,26 +1,24 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, StyleSheet, Text, TouchableOpacity,Keyboard } from "react-native";
+import React, { useEffect } from "react";
 import {
-  Ionicons,
-  FontAwesome6,
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function WriteMenus({
-}: {
-}) {
-    const navigation = useNavigation();
+export default function WriteMenus({editor}:{editor:any}) {
+  const navigation = useNavigation();
   const changeWriteStatus = () => {
     navigation.goBack();
   };
   const deleteCard = () => {
     console.log("deleteCard");
   };
-  const InfoCard = () => {
-    console.log("infomation");
-  };
+  
+  const blurWebView = () => {
+    editor.webviewRef.current?.injectJavaScript(`document.activeElement.blur();`)
+  }
+
   return (
     <View style={styles.menuBar}>
       <TouchableOpacity onPress={changeWriteStatus}>
@@ -33,15 +31,6 @@ export default function WriteMenus({
           flex: 0.4,
         }}
       >
-        <TouchableOpacity onPress={InfoCard}>
-          <MaterialCommunityIcons
-            name="information-outline"
-            size={30}
-            color="black"
-            // style={{ paddingHorizontal: "5%" }}
-          />
-        </TouchableOpacity>
-
         <TouchableOpacity onPress={deleteCard}>
           <MaterialCommunityIcons
             name="trash-can-outline"
@@ -50,6 +39,13 @@ export default function WriteMenus({
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={deleteCard}>
+          <MaterialIcons
+            name="save-alt"
+            size={30}
+            color="black"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={blurWebView}>
           <MaterialIcons name="keyboard-hide" size={30} color="black" />
         </TouchableOpacity>
       </View>

@@ -19,10 +19,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute } from "@react-navigation/native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import dataBase from "../db/data";
+// import dataBase from "../db/data";
 import "react-native-get-random-values";
 
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 
 interface Memo {
   id: string;
@@ -32,14 +32,14 @@ interface Memo {
 export default function MemoWrites() {
   const route = useRoute();
   // const [datas, setDatas] = useState<Memo[]>(dataBase);
-  const [initialContent, setInitialContent] = useState<string>("");
+  const [initialContent, setInitialContent] = useState<string>("<h1></h1>");
   const { top } = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
   const headerHeight = isLandscape ? 32 : 44;
   const keyboardVerticalOffset = headerHeight + top;
 
-  const { memo }: any = route.params;
+  const { memo, onCreate, onRemove, onUpdate }: any = route.params;
 
   const navigation = useNavigation();
 
@@ -51,11 +51,17 @@ export default function MemoWrites() {
   });
 
   const content = useEditorContent(editor, { type: "html" });
+  console.log("content", content);
   console.log("memo", memo);
+
   const changeWriteStatus = () => {
     navigation.goBack();
   };
-
+  //create, update, remove function
+  const writeUpdate = (id: string, content: Partial<Memo>) => {
+    onUpdate(id, content);
+    console.log("route.params", route.params);
+  };
   useEffect(() => {
     //  title의 저장이 어떻게 되는지 알아야 적용할 수 있을거 같다.
     //  webview전체가 하나의 파일로 저장이 된다면, 미리보기에서 문제가 많이 생기고
@@ -64,37 +70,35 @@ export default function MemoWrites() {
       setInitialContent(memo.content);
     }
 
-    if (!memo) {
-      onCreate();
-    } else {
-      onUpdate(memo.id, { content });
-    }
+    // if (!memo) {
+    //   onCreate();
+    // } else {
+    //   onUpdate(memo.id, { content });
+    // }
     // content && onSave(content);
   }, []);
 
-  console.log("database", dataBase);
+  // console.log("datas", datas);
 
-  const onCreate = () => {
-    const newMemo: Memo = {
-      id: uuidv4(),
-      content,
-    };
-    // setDatas(datas.concat(newMemo));
-    console.log("oncrate", newMemo);
-    dataBase.push(newMemo);
-  };
+  // const onCreate = () => {
+  //   const newMemo: Memo = {
+  //     id: uuidv4(),
+  //     content,
+  //   };
+  //   setDatas([...datas, newMemo]);
+  // };
 
-  // data remove function
-  const onRemove = (id: string) => {
-    dataBase.map((data) => data.id !== id);
-    navigation.goBack();
-  };
+  // // data remove function
+  // const onRemove = (id: string) => {
+  //   dataBase.map((data) => data.id !== id);
+  //   navigation.goBack();
+  // };
 
-  // data update function
-  const onUpdate = (id: string, newData: Partial<Memo>) => {
-    console.log("newData", newData);
-    dataBase.map((data) => (data.id === id ? { ...data, ...newData } : data));
-  };
+  // // data update function
+  // const onUpdate = (id: string, newData: Partial<Memo>) => {
+  //   console.log("newData", newData);
+  //   dataBase.map((data) => (data.id === id ? { ...data, ...newData } : data));
+  // };
 
   const blurWebView = () => {
     editor.webviewRef.current?.injectJavaScript(
@@ -105,15 +109,19 @@ export default function MemoWrites() {
   const happy = () => {
     if (!memo) {
       console.log("onCreate");
-      onCreate();
+      onCreate(content);
     } else {
       console.log("onUpdate");
-      onUpdate(memo.id, { content });
+      writeUpdate(memo.id, { content });
     }
   };
   const onTrash = () => {
-    console.log("삭제");
-    onRemove(memo.id);
+    if (!memo) {
+      navigation.goBack();
+    } else {
+      console.log("onDelete");
+      onRemove(memo.id);
+    }
   };
 
   return (

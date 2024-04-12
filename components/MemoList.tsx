@@ -6,36 +6,39 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useCallback } from "react";
 
 type Memo = {
   id: string;
-  content: string|undefined;
+  content: string | undefined;
 };
 
 type ItemProps = { item: Memo; onPress(): void };
 
 //구분하는 함수!!
-const parseHtmlString = ({ content }: { content: string|undefined }) => {
-    if (!content) {
-        // content가 undefined인 경우 처리
-        return { title: '', description: '' };
-      }
-    // 정규식 패턴 설정
-  const titleRegex = /<h1>(.*?)<\/h1>/;
-  const pRegex = /<p>(.*?)<\/p>/;
-
-  // 문자열에서 타이틀과 본문 추출
-  const titleMatch = content.match(titleRegex);
-  const pMatch = content.match(pRegex);
-
-  // 타이틀과 본문 추출
-  const title = titleMatch ? titleMatch[1] : "";
-  const description = pMatch ? pMatch[1] : "";
-
-  return { title, description };
-};
 
 const Item = ({ item, onPress }: ItemProps) => {
+  const parseHtmlString = useCallback(
+    ({ content }: { content: string | undefined }) => {
+      if (!content) {
+        // content가 undefined인 경우 처리
+        return { title: "", description: "" };
+      }
+      // 정규식 패턴 설정
+      const tagRegex = /(?<=<[^>]+>)[^<]+(?=<\/[^>]+>)/g;
+      // 문자열에서 태그 제거
+      const strippedContent = content?.match(tagRegex);
+
+      // 첫 번째 줄을 제목으로, 나머지를 설명으로 분리
+      console.log("strippedContent", strippedContent);
+      const title = strippedContent?.[0] || "";
+      const description = strippedContent?.slice(1).join("\n") || "";
+
+      return { title, description };
+    },
+    [item]
+  );
+
   const { title, description } = parseHtmlString({ content: item.content });
   return (
     <TouchableOpacity style={styles.itemComp} onPress={onPress}>
@@ -44,15 +47,27 @@ const Item = ({ item, onPress }: ItemProps) => {
     </TouchableOpacity>
   );
 };
-export default function MemoList({ data }: { data: Memo[] }) {
-  const navigation = useNavigation();
+const navigation = useNavigation();
+
+export default function MemoList({
+  data,
+  onUpdate,
+  onRemove,
+}: {
+  data: Memo[];
+  onUpdate(id: string, content: Partial<Memo>): void;
+  onRemove(id: string): void;
+}) {
+  
 
   const renderItem = ({ item }: { item: Memo }) => {
     const memo = item;
     return (
       <Item
         item={item}
-        onPress={() => navigation.navigate("MemoScreen", { memo })}
+        onPress={() =>
+          navigation.navigate("MemoScreen", { memo, onUpdate, onRemove })
+        }
       />
     );
   };

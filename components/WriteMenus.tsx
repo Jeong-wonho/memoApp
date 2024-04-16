@@ -26,7 +26,6 @@ export default function WriteMenus({ editor }: { editor: any }) {
   };
 
   const [datas, setDatas] = useState<Memo[]>(dataBase);
-  const content = useEditorContent(editor, { type: "html" });
 
   const onCreate = (content: string | undefined) => {
     const newMemo = {
@@ -52,6 +51,7 @@ export default function WriteMenus({ editor }: { editor: any }) {
   const happy = () => {
     console.log('today is happy');
   }
+
   const blurWebView = () => {
     editor.webviewRef.current?.injectJavaScript(
       `document.activeElement.blur();`

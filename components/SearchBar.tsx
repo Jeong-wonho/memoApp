@@ -4,13 +4,6 @@ import { useState } from "react";
 
 export default function SearchBar() {
   const [text, onChangeText] = useState<string>();
-  //   const [isFocused, setIsFocused] = useState(false);
-  //     const handleFocus = () => {
-  //         setIsFocused(true);
-  //       };
-  //       const handleBlur = () => {
-  //         setIsFocused(false);
-  //       };
   return (
     <>
       <View
